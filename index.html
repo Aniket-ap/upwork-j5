@@ -1,0 +1,780 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/somethinggoodone/cdn/AniketPradhan_bootstrap.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <style>
+        input,
+        select,
+        textarea {
+            text-overflow: ellipsis
+        }
+
+        button:active,
+        button:focus {
+            outline-color: #c6a5ff
+        }
+
+        .bg-theme {
+            background: rgba(103, 58, 183, .07) !important
+        }
+
+        .text-theme {
+            color: #673ab7
+        }
+
+        * {
+            font-size: 14px
+        }
+
+        input[readonly] {
+            background-color: transparent !important;
+            cursor: inherit
+        }
+
+        .nav-link.active,
+        .textbutton,
+        label {
+            color: #374151 !important;
+            font-weight: 500 !important
+        }
+
+        .initial {
+            font-size: initial !important
+        }
+
+        .hide {
+            display: none
+        }
+
+        .name {
+            background-color: transparent;
+            font-weight: 400;
+            outline: 0;
+            width: 50%
+        }
+
+        .name:focus {
+            border-bottom: 2px solid #673ab7 !important
+        }
+
+        .list-group-item-action:hover svg path {
+            fill: #673ab7
+        }
+
+        .bottom,
+        .bottom-left,
+        .bottom-right,
+        .button-bar,
+        .button-bar-right {
+            bottom: 0 !important;
+            position: absolute !important
+        }
+
+        .bottom-right,
+        .button-bar-right {
+            right: 0 !important
+        }
+
+        .flx-row {
+            display: flex;
+            justify-content: space-between
+        }
+
+        .accordion-button {
+            display: unset !important
+        }
+
+        .accordion-button:not(.collapsed) {
+            border-left: 1px solid var(--bs-border-color);
+            border-right: 1px solid var(--bs-border-color);
+            border-top: 1px solid var(--bs-border-color);
+            transition: ease .25s
+        }
+
+        .accordion-button:not(.collapsed) .wdesc {
+            display: none !important;
+            animation: 5s fadeIn !important;
+            animation-fill-mode: forwards !important
+        }
+
+        .accordion-button:not(.collapsed) .name {
+            font-weight: 500 !important
+        }
+
+        .accordion-body {
+            border-left: 1px solid var(--bs-border-color);
+            border-bottom: 1px solid var(--bs-border-color);
+            border-right: 1px solid var(--bs-border-color)
+        }
+
+        .search {
+            width: -webkit-fill-available
+        }
+
+        .info-icon {
+            color: #673ab7;
+            font-size: large;
+            font-weight: 900
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 40
+        }
+
+        .icon-text-primary {
+            opacity: .5 !important
+        }
+
+        .icon-text-primary:hover {
+            opacity: 1 !important
+        }
+
+        .picker-dialog-bg {
+            z-index: 200000 !important
+        }
+
+        .picker-dialog {
+            z-index: 200001 !important
+        }
+
+        .messagemodal {
+            z-index: 200004 !important
+        }
+
+        .icon32 {
+            width: 32px
+        }
+
+        .form-check {
+            margin-bottom: 0 !important;
+        }
+
+        .required:after {
+            content: " *";
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        .stool {
+            cursor: pointer;
+            user-select: none;
+            text-transform: uppercase;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+    <button type="button" class="m-3 btn btn-primary" id="email">Send Email</button>
+    <button type="button" class="m-3 btn btn-outline-secondary" id="restoreall">Restore All</button>
+    <button type="button" class="m-3 btn btn-outline-secondary" id="sendall">Send All</button>
+    <hr>
+    <ul class="list-group" id="tasks-point-l9zgqjql"></ul>
+    <div id="modal"></div>
+    <script>
+        function atoo(f, b) {
+            var c = [],
+                d = !1;
+            f.forEach(function (g, e) {
+                var a = {};
+                a.key = g;
+                a.value = 0 === b[e].length ? "" : b[e];
+                "" === a.key.trim() && "" !== a.value ? d = !0 : "" !== a.key.trim() && c.push(a);
+            });
+            return d ? !1 : c;
+        }
+
+        function getAddTaskEnvelope(wid, tid, tasktype, task_body) {
+            return `<li class="border-top-0 border-end-0 border-start-0 list-group-item tsk-${wid}-${tid} ${tasktype}" data-id="${wid}-${tid}" data-type="${tasktype}">
+			<img src="https://img.icons8.com/color/48/null/gmail-new.png" class="float-start" />
+			<div class="btn-group float-end">
+				<button type="button" class="btn dropdown-toggle btn-light" data-bs-toggle="dropdown" aria-expanded="false"> Actions </button>
+				<ul class="dropdown-menu dropdown-menu-lg-end">
+					<li><a data-bs-toggle="modal" href="#task-modal-${wid}-${tid}" role="button" class="dropdown-item" href="#">Edit</a></li>
+					<li><a class="dropdown-item" href="#">Duplicate</a></li>
+					<li><a class="dropdown-item tdelete" href="#">Delete</a></li>
+				</ul>
+			</div>
+			${task_body}
+		</li>`
+        }
+
+        function getEmailValues(wid, tid) {
+            let result = {};
+            result.taskType = "email";
+            result.id = tid;
+            result.name = `${wid}-${tid}`;
+            result.replyTo = $(`#reply_to-${wid}-${tid}`).val();
+            result.attachMergedFiles = $(`#attach_merged_files-${wid}-${tid}`).is(":checked");
+            result.attachFormUploads = $(`#attach_form_uploads-${wid}-${tid}`).is(":checked");
+            // Service name
+            let val = $(`#service_name-${wid}-${tid}`).val();
+            if (val === "gmail") {
+                result.serviceName = "Gmail"
+                result.senderName = $(`#sender_name-${wid}-${tid}`).val();
+                result.senderEmail = $(`#sender_email-${wid}-${tid}`).val();
+            } else if (val === "amazon") {
+                result.serviceName = "Amazon SES";
+                let region = $(`#ses_region-${wid}-${tid}`).val()
+                if (region === "") {
+                    alert("Please choose AWS Region.");
+                    return;
+                }
+                result.sesRegion = region;
+                let sesKey = $(`#ses_key_id-${wid}-${tid}`).val();
+                if (sesKey === "") {
+                    alert("SES Key ID should not be empty.");
+                    return;
+                }
+                result.sesKeyId = sesKey;
+                let sesSecret = $(`#ses_secret-${wid}-${tid}`).val();
+                if (sesSecret === "") {
+                    alert("SES Secret should not be empty.");
+                    return;
+                }
+                result.sesSecret = sesSecret
+            } else if (val === "sendgrid") {
+                result.serviceName = "SendGrid"
+                let sendGrid = $(`#send_grid_key-${wid}-${tid}`).val();
+                if (sendGrid === "") {
+                    alert("SendGrid API Key should not be empty.");
+                    return;
+                }
+                result.sendGridKey = sendGrid;
+            } else if (val === "sparkpost") {
+                result.serviceName = "SparkPost"
+                let sparkPost = $(`#spark_post_key-${wid}-${tid}`).val();
+                if (sparkPost === "") {
+                    alert("sparkPost API Key should not be empty.");
+                    return;
+                }
+                result.sparkPostKey = sparkPost;
+            }
+
+            result.subject = $(`#subject-${wid}-${tid}`).val();
+            let editorTypeValue = $(`#editor_type-${wid}-${tid}`).val();
+            if (editorTypeValue === "wysiwyg") {
+                result.editorType = "wysiwyg";
+                result.htmlBody = $(`#editor-${wid}-${tid} .ql-editor`).html();
+                // result.htmlBody = quill.root.innerHTML;
+            } else if (editorTypeValue === "html") {
+                result.editorType = "html";
+                result.htmlBody = $(`#editor-html-${wid}-${tid}`).val();
+            } else if (editorTypeValue === "docs") {
+                result.editorType = "docs";
+                result.emailTemplateName = $(`#email_template_name-${wid}-${tid}`).val();
+            }
+
+            let toVal = $(`#to-${wid}-${tid}`).val();
+            let ccVal = $(`#cc-${wid}-${tid}`).val();
+            let bccVal = $(`#bcc-${wid}-${tid}`).val();
+            if ((toVal === "") && (ccVal === "") && (bccVal === "")) {
+                alert("Recipient TO/CC/BCC should not be empty.");
+                return;
+            }
+            result.to = toVal;
+            result.cc = ccVal;
+            result.bcc = bccVal;
+
+            return result;
+        }
+
+        function createTask_Email(wid, task) {
+            var tid = task?.id ? task.id : Math.random().toString(36).substr(2, 8);
+            var html_task = getAddTaskEnvelope(wid, tid, "email", `<div class="ms-5 ps-3">
+	<span class="task-title">Email: ${wid}-${tid} </span><br>
+	<span class="text-secondary small">Last updated </span><span class="time text-secondary small" data-time="1667889127596">15 days ago</span>
+</div>
+<div class="modal fade" id="task-modal-${wid}-${tid}" aria-hidden="true" aria-labelledby="task-modal-label-${wid}-${tid}" tabindex="-1">
+	<div class="modal-dialog modal-fullscreen">
+		<div class="modal-content">
+			<div class="modal-header border border-bottom-0 bg-theme">
+				<img style="width:25px;" src="https://img.icons8.com/color/48/null/gmail-new.png" class="float-start">&nbsp;
+				<span class="modal-title fw-bolder ms-1 ps-0" id="task-modal-label-${wid}-${tid}">Create New Email Instance</span>
+				<button type="button" class="me-1 btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body border">
+				<!--Modal body goes here.-->
+				<div class="container mt-5">
+					<div id="email-container-${wid}-${tid}" >
+							<table border="0" width="100%" style="table-layout:fixed;">
+								<tbody>
+									<tr>
+										<td colspan="3">
+											<span class="pb-2 fw-bolder">Email Service</span><br>
+											<span class="text-secondary">You may choose to send emails through Gmail, Amazon SES, SendGrid, SparkPost</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td class="p-3" colspan="3">
+											<label for="service_name-${wid}-${tid}" class="form-label">Service Provider</label>
+											<select class="form-select" id="service_name-${wid}-${tid}">
+												<option value="gmail">Gmail</option>
+												<option value="amazon">Amazon SES</option>
+												<option value="sendgrid">SendGrid</option>
+												<option value="sparkpost">SparkPost</option>
+											</select>
+										</td>
+									</tr>
+									<tr class="aws-row-${wid}-${tid}">
+										<td class="p-3">
+											<label for="ses_region-${wid}-${tid}" class="form-label required">AWS Region</label>
+											<select class="form-select" id="ses_region-${wid}-${tid}">
+												<option value="">Choose AWS Region...</option>
+												<option value="us-east-2">US East (Ohio)</option>
+												<option value="us-east-1">US East (N. Virginia)</option>
+												<option value="us-west-1">US West (N. California)</option>
+												<option value="us-west-2">US West (Oregon)</option>
+												<option value="af-south-1">Africa (Cape Town)</option>
+												<option value="ap-south-1">Asia Pacific (Mumbai)</option>
+												<option value="ap-northeast-2">Asia Pacific (Seoul)</option>
+												<option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+												<option value="ap-southeast-2">Asia Pacific (Sydney)</option>
+												<option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+												<option value="ca-central-1">Canada (Central)</option>
+												<option value="eu-central-1">Europe (Frankfurt)</option>
+												<option value="eu-west-1">Europe (Ireland)</option>
+												<option value="eu-west-2">Europe (London)</option>
+												<option value="eu-south-1">Europe (Milan)</option>
+												<option value="eu-west-3">Europe (Paris)</option>
+												<option value="eu-north-1">Europe (Stockholm)</option>
+												<option value="me-south-1">Middle East (Bahrain)</option>
+												<option value="sa-east-1">South America (São Paulo)</option>
+												<option value="us-gov-west-1">AWS GovCloud (US-West)</option>
+											</select>
+										</td>
+										<td class="p-3">
+											<label for="ses_key_id-${wid}-${tid}" class="form-label required">SES Key id</label>
+											<input type="text" class="form-control" id="ses_key_id-${wid}-${tid}" />
+										</td>
+										<td class="p-3">
+											<label for="ses_secret-${wid}-${tid}" class="form-label required">SES Secret</label>
+											<input type="text" class="form-control" id="ses_secret-${wid}-${tid}"  />
+										</td>
+									</tr>
+									<tr class="sendgrid-row-${wid}-${tid}">
+										<td colspan="3" class="p-3">
+											<label for="send_grid_key-${wid}-${tid}" class="form-label required">SendGrid API Key</label>
+											<input type="text" class="form-control" id="send_grid_key-${wid}-${tid}" />
+										</td>
+									</tr>
+									<tr class="sparkpost-row-${wid}-${tid}">
+										<td colspan="3" class="p-3">
+											<label for="spark_post_key-${wid}-${tid}" class="form-label required">SparkPost API Key</label>
+											<input type="text" class="form-control" id="spark_post_key-${wid}-${tid}" />
+										</td>
+									</tr>
+									<tr class="gmail-row-${wid}-${tid}">
+										<td colspan="2" class="p-3">
+											<label for="sender_name-${wid}-${tid}" class="form-label">Sender Name</label>
+											<input type="text" class="form-control" id="sender_name-${wid}-${tid}" />
+										</td>
+										<td class="p-3">
+											<label for="sender_email-${wid}-${tid}" class="form-label">Sender Email</label>
+											<select class="form-select" id="sender_email-${wid}-${tid}">
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<hr>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<span class="pb-2 fw-bolder">Recipients</span><br>
+											<span class="text-secondary">Specify one or more email addresses separated by comma that your emails should be sent to</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td class="p-3">
+											<label for="to-${wid}-${tid}" class="form-label">To</label>
+											<input type="text" class="form-control" id="to-${wid}-${tid}" />
+										</td>
+										<td class="p-3">
+											<label for="cc-${wid}-${tid}" class="form-label">CC</label>
+											<input type="text" class="form-control" id="cc-${wid}-${tid}" />
+										</td>
+										<td class="p-3">
+											<label for="bcc-${wid}-${tid}" class="form-label">BCC</label>
+											<input type="text" class="form-control" id="bcc-${wid}-${tid}" />
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2" class="p-3">
+											<label for="reply_to-${wid}-${tid}" class="form-label">Reply-to Email</label>
+											<select class="form-select" id="reply_to-${wid}-${tid}">
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<hr>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<span class="pb-2 fw-bolder">Subject & Message</span><br>
+											<span class="text-secondary">Specify the subject line and body of your message. Use markers for personalized subject and body</span>
+										</td>
+									</tr>
+									<tr>
+										<td class="p-3" colspan="2">
+											<label for="subject-${wid}-${tid}" class="form-label">Subject</label>
+											<input type="text" class="form-control" id="subject-${wid}-${tid}" />
+										</td>
+										<td class="p-3">
+											<label for="editor_type-${wid}-${tid}" class="form-label">Editor type</label>
+											<select class="form-select" id="editor_type-${wid}-${tid}">
+												<option selected value="wysiwyg">WYSIWYG</option>
+												<option value="html">HTML</option>
+												<option value="docs">Google Docs</option>
+											</select>
+										</td>
+									</tr>
+									<tr class="email-body-section-${wid}-${tid}">
+										<td class="p-3" colspan="3">
+											<label for="email-body-${wid}-${tid}" class="form-label">Email Body</label>
+											<div id="editor-${wid}-${tid}">
+												
+											</div>
+										</td>
+									<tr/>
+									<tr class="email-bodyhtml-section-${wid}-${tid}">
+										<td class="p-3" colspan="3">
+											<label for="email-body-html-${wid}-${tid}" class="form-label">Email Body</label>
+											<div class="container position-relative border p-0">
+						
+													<small id="showpreview-${wid}-${tid}" class="bg-theme stool position-absolute top-0 end-0 p-2">
+														PREVIEW
+													</small>
+													<small id="showhtml-${wid}-${tid}" class="bg-theme stool position-absolute top-0 end-0 p-2" style="display:none">
+														VIEW HTML
+													</small>			
+													<textarea id="editor-html-${wid}-${tid}" class="form-control m-0 p-2 border-0" style="width:100%;resize: none;outline: none"></textarea>
+													<iframe src="javascript:void(0);" class="hide p-2" id="embody-preview-${wid}-${tid}" style="width:100%;height: 250px;">
+													</iframe>
+												</div>
+											</div>
+
+										</td>
+									</tr>
+									<tr class="google-docs-section-${wid}-${tid}">
+										<td class="p-3" colspan="2">
+											<input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
+											<label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Docs Template<sup class="text-danger">*</sup>
+												<a class="hide openlink" href=""><i class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
+											</label>
+											<div class="input-group">
+												<input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose Docs Template">
+												<input id="email_template_id-${wid}-${tid}" type="hidden" value="" />
+												<button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+												<span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span class="btn-text">Choose</span></button>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<hr>
+										</td>
+									</tr>									
+									<tr>
+										<td colspan="3">
+											<span class="pb-2 fw-bolder">File Attachments</span><br>
+											<span class="text-secondary">You can attach files or include merged file linkes from Google Drive How to do it?</span><br>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3" class="p-3">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="attach_merged_files-${wid}-${tid}" checked>
+												<label class="fw-normal" for="attach_merged_files-${wid}-${tid}">
+													Attach all merged files generated in this workflow
+												</label>
+											</div>
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="attach_form_uploads-${wid}-${tid}" >
+												<label class="fw-normal" for="attach_form_uploads-${wid}-${tid}">
+													Attach Google Form uploaded Files (if any)
+												</label>
+											</div>	
+										</td>	
+									</tr>
+								</tbody>
+							</table>
+						</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary restore-${wid}-${tid}">Restore</button>
+				<button type="submit" class="btn btn-primary done-${wid}-${tid}">Done</button>
+			</div>
+		</div>
+	</div>
+</div>`);
+            $(`#tasks-point-${wid}`).append(html_task);
+            if (!task) $(`#task-modal-${wid}-${tid}`).modal("show");
+            // Hide all the row initially
+            $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}, .email-bodyhtml-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
+
+            var SENDERS_EMAILS = [{
+                email: "somethinggoodone@gmail.com"
+            }, {
+                email: "example@gmail.com"
+            }]
+            SENDERS_EMAILS.forEach((data, index) => {
+                $(`#sender_email-${wid}-${tid}`).append(`<option value="${data.email}">${data.email}</option>`);
+            })
+
+            var REPLY_TO_EMAILS = [{
+                email: "somethinggoodone@gmail.com"
+            }, {
+                email: "example@gmail.com"
+            }]
+            REPLY_TO_EMAILS.forEach((data, index) => {
+                $(`#reply_to-${wid}-${tid}`).append(`<option value="${data.email}">${data.email}</option>`);
+            })
+
+            var toolbarOptions = ['bold', 'italic', 'underline', 'strike', 'link', 'image', {
+                'list': 'ordered'
+            }, {
+                    'list': 'bullet'
+                }, {
+                    size: ['small', false, 'large', 'huge']
+                }, {
+                    'align': []
+                }, {
+                    'direction': 'rtl'
+                }, 'clean']
+            $(`#editor-${wid}-${tid}, #editor-html-${wid}-${tid}`).css("height", "250px")
+            var quill = new Quill(`#editor-${wid}-${tid}`, {
+                theme: 'snow',
+                placeholder: 'Use HTML tags and {{Column Title}} for composing personalized emails',
+                modules: {
+                    toolbar: toolbarOptions
+                }
+            });
+
+            $(`#showpreview-${wid}-${tid}`).click(function () {
+                $(this).hide();
+                let embody = $(`#editor-html-${wid}-${tid}`).val()
+                $(`#embody-preview-${wid}-${tid}`).contents().find('body').html(embody)
+                $(`#showhtml-${wid}-${tid},#embody-preview-${wid}-${tid}`).show();
+                $(`#editor-html-${wid}-${tid}`).hide();
+            });
+            $(`#showhtml-${wid}-${tid}`).click(function () {
+                $(this).hide();
+                $(`#showpreview-${wid}-${tid},#editor-html-${wid}-${tid}`).show();
+                $(`#embody-preview-${wid}-${tid}`).hide();
+            });
+
+            $(`#editor_type-${wid}-${tid}`).on("change", function () {
+                var value = $(this).children('option:selected').val();
+                if (value === "wysiwyg") {
+                    $(`.email-bodyhtml-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
+                    $(`.email-body-section-${wid}-${tid}`).show();
+                } else if (value === "html") {
+                    $(`.email-bodyhtml-section-${wid}-${tid}`).show();
+                    $(`.email-body-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
+                } else {
+                    $(`.google-docs-section-${wid}-${tid}`).show();
+                    $(`.email-body-section-${wid}-${tid}, .email-bodyhtml-section-${wid}-${tid}`).hide();
+                }
+            })
+            $(`#service_name-${wid}-${tid}`).on("change", function () {
+                var value = $(this).children('option:selected').val();
+                if (value === "gmail") {
+                    $(`.gmail-row-${wid}-${tid}`).show();
+                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}`).hide();
+                } else if (value === "amazon") {
+                    $(`.aws-row-${wid}-${tid}`).show();
+                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
+                } else if (value === "sendgrid") {
+                    $(`.sendgrid-row-${wid}-${tid}`).show();
+                    $(`.sparkpost-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
+                } else if (value === "sparkpost") {
+                    $(`.sparkpost-row-${wid}-${tid}`).show();
+                    $(`.sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
+                } else {
+                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
+                }
+            }).trigger("change")
+            $(`.restore-${wid}-${tid}`).on('click', function (e) {
+                console.log("Restore called")
+                if (!task) return;
+                var pj = task;
+
+                // Service Name
+                if (pj.serviceName === "Gmail") {
+                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
+                    // Sender Name
+                    $(`#sender_name-${wid}-${tid}`).val(pj.senderName);
+                    // Sender Email
+                    $(`#sender_email-${wid}-${tid}`).val(pj.senderEmail)
+                } else if (pj.serviceName === "Amazon SES") {
+                    $(`#service_name-${wid}-${tid}`).val("amazon").trigger("change");
+                    // Aws Region
+                    $(`#ses_region-${wid}-${tid}`).val(pj.sesRegion)
+                    // SES key
+                    $(`#ses_key_id-${wid}-${tid}`).val(pj.sesKeyId);
+                    // SES secret
+                    $(`#ses_secret-${wid}-${tid}`).val(pj.sesSecret);
+                } else if (pj.serviceName === "SendGrid") {
+                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
+                    $(`#send_grid_key-${wid}-${tid}`).val(pj.sendGridKey);
+                } else if (pj.serviceName === "SparkPost") {
+                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
+                    $(`#spark_post_key-${wid}-${tid}`).val(pj.sparkPostKey);
+                }
+
+                // TO, CC, BCC
+                $(`#to-${wid}-${tid}`).val(pj.to);
+                $(`#cc-${wid}-${tid}`).val(pj.cc);
+                $(`#bcc-${wid}-${tid}`).val(pj.bcc);
+
+                // Reply to email
+                $(`#reply_to-${wid}-${tid}`).val(pj.replyTo)
+
+                // Subject
+                $(`#subject-${wid}-${tid}`).val(pj.subject);
+                // Editor type
+                // htmlBody
+                $(`#editor_type-${wid}-${tid}`).val(pj.editorType).trigger("change");
+                if (pj.editorType === "wysiwyg") {
+                    quill.pasteHTML(pj.htmlBody);
+                }
+                if (pj.editorType === "html") {
+                    $(`#editor-html-${wid}-${tid}`).val(pj.htmlBody);
+                }
+
+                // DOCS
+                $(`#email_template_id-${wid}-${tid}`).val(pj.emailTemplateId);
+                $(`#email_template_name-${wid}-${tid}`).val(pj.emailTemplateName);
+                $(`#email_template_mime-${wid}-${tid}`).val(pj.emailTemplateMime);
+
+                if (pj.attachMergedFiles) {
+                    $(`#attach_merged_files-${wid}-${tid}`).prop('checked', true);
+                } else {
+                    $(`#attach_merged_files-${wid}-${tid}`).removeAttr('checked');
+                }
+                if (pj.attachFormUploads) {
+                    $(`#attach_form_uploads-${wid}-${tid}`).prop('checked', true);
+                }
+
+
+            }).trigger("click");
+            $(`.done-${wid}-${tid}`).on('click', function (e) {
+                e.preventDefault()
+                e.stopPropagation()
+                console.log(JSON.stringify(getEmailValues(wid, tid), null, 4));
+                // if (getEmailValues(wid, tid)) {
+                // $(`#task-modal-${wid}-${tid}`).modal('hide');
+                // }
+            })
+
+        }
+        // Delete Instance
+        $(`.tdelete`).on('click', function (e) {
+            $(this).parent().parent().parent().parent().remove();
+        })
+        $("#email").click(function (event) {
+            createTask_Email("l9zgqjql")
+        });
+        $("#restoreall").click(function (event) {
+            $("#tasks-point-l9zgqjql").html('')
+            var wflw = {
+                id: "l9zgqjql",
+                tasks: [{
+                    "taskType": "email",
+                    "id": "y9f514dg",
+                    "name": "l9zgqjql-y9f514dg",
+                    "senderEmail": "somethinggoodone@gmail.com",
+                    "replyTo": "somethinggoodone@gmail.com",
+                    "editorType": "wysiwyg", //html or docs
+                    "htmlBody": "<p>This is a test email</p>",
+                    "attachMergedFiles": true,
+                    "serviceName": "Gmail", //"Amazon SES" or "SendGrid" or "SparkPost"
+                    "senderName": "Anony Dee",
+                    "subject": "Test subject",
+                    "to": "to1recipient1@gmail.com,torecipient2@gmail.com",
+                    "cc": "cc@gmail.com",
+                    "bcc": "bcc@gmail.com",
+                    "attachFormUploads": true,
+
+                    "emailTemplateId": "2y_aGsyCWgpwZOd0vG-qEbUVPdA714aDDW_TVzf0ZwqY",
+                    "emailTemplateName": "template",
+                    "emailTemplateMime": "application/vnd.google-apps.document",
+
+                    "sesRegion": "us-east-2",
+                    "sesKeyId": "SES1",
+                    "sesSecret": "SESSecret",
+
+                    "sendGridKey": "SendGridAPIKEY",
+
+                    "sparkPostKey": "SparkPostAPIKEYXXXXXX"
+
+                }, {
+                    "taskType": "email",
+                    "id": "j2f514dg",
+                    "name": "l9zgqjql-j2f514dg",
+                    "senderEmail": "tetrahedron@gmail.com",
+                    "replyTo": "square@gmail.com",
+                    "editorType": "html", //wysiwyg or docs
+                    "htmlBody": "<p>This is a test email</p><h1>This is heading</h1>",
+                    "attachMergedFiles": true,
+                    "serviceName": "Gmail",
+                    "senderName": "Anony Dee",
+                    "subject": "Test subject",
+                    "to": "triangle@gmail.com,pentagon@gmail.com",
+                    "cc": "cc@gmail.com",
+                    "bcc": "bcc@gmail.com",
+                    "attachFormUploads": false,
+
+                    "emailTemplateId": "2y_aGsyCWgpwZOd0vG-qEbUVPdA714aDDW_TVzf0ZwqY",
+                    "emailTemplateName": "template",
+                    "emailTemplateMime": "application/vnd.google-apps.document",
+
+                    "sesRegion": "us-east-2",
+                    "sesKeyId": "SES1",
+                    "sesSecret": "SESSecret",
+
+                    "sendGridKey": "SendGridAPIKEY",
+
+                    "sparkPostKey": "SparkPostAPIKEYXXXXXX"
+
+                }]
+            }
+            wflw.tasks.forEach(t => {
+                if (t.taskType == "email") {
+                    createTask_Email(wflw.id, t)
+                }
+            })
+        });
+        $(`#sendall`).click(function (e) {
+            r = [];
+            error = false;
+            $(`#tasks-point-l9zgqjql`).children().each(function () {
+                if ($(this).data("type") == "email") {
+                    var ids = $(this).data("id").split("-");
+                    var w = getEmailValues(ids[0], ids[1])
+                    if (!w) {
+                        $(`#task-modal-${$(this).data("id")}`).modal("show");
+                        error = true;
+                        return false;
+                    } else r.push(w);
+                }
+            });
+            if (!error) console.log(JSON.stringify(r, null, 4))
+        });
+    </script>
+</body>
+
+</html>
