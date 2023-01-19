@@ -304,209 +304,26 @@
 			<div class="modal-body border">
 				<!--Modal body goes here.-->
 				<div class="container mt-5">
-					<div id="email-container-${wid}-${tid}" >
+					<div id="drive-container-${wid}-${tid}" >
 							<table border="0" width="100%" style="table-layout:fixed;">
 								<tbody>
 									<tr>
 										<td colspan="3">
-											<span class="pb-2 fw-bolder">Email Service</span><br>
-											<span class="text-secondary">You may choose to send emails through Gmail, Amazon SES, SendGrid, SparkPost</span><br>
+											<span class="pb-2 fw-bolder">Google Drive</span><br>
+											<span class="text-secondary">You may choose to create new folders, copy a file or sharing an exsiting file with multiple users.</span><br>
 										</td>
 									</tr>
 									<tr>
 										<td class="p-3" colspan="3">
-											<label for="service_name-${wid}-${tid}" class="form-label">Service Provider</label>
+											<label for="service_name-${wid}-${tid}" class="form-label">Drive Service</label>
 											<select class="form-select" id="service_name-${wid}-${tid}">
-												<option value="gmail">Gmail</option>
-												<option value="amazon">Amazon SES</option>
-												<option value="sendgrid">SendGrid</option>
-												<option value="sparkpost">SparkPost</option>
+												<option value="">Choose action..</option>
+												<option value="gmail">Copy File</option>
+												<option value="amazon">Create Folder</option>
+												<option value="sendgrid">Share File</option>
+												<option value="sparkpost">Share Folder</option>
 											</select>
 										</td>
-									</tr>
-									<tr class="aws-row-${wid}-${tid}">
-										<td class="p-3">
-											<label for="ses_region-${wid}-${tid}" class="form-label required">AWS Region</label>
-											<select class="form-select" id="ses_region-${wid}-${tid}">
-												<option value="">Choose AWS Region...</option>
-												<option value="us-east-2">US East (Ohio)</option>
-												<option value="us-east-1">US East (N. Virginia)</option>
-												<option value="us-west-1">US West (N. California)</option>
-												<option value="us-west-2">US West (Oregon)</option>
-												<option value="af-south-1">Africa (Cape Town)</option>
-												<option value="ap-south-1">Asia Pacific (Mumbai)</option>
-												<option value="ap-northeast-2">Asia Pacific (Seoul)</option>
-												<option value="ap-southeast-1">Asia Pacific (Singapore)</option>
-												<option value="ap-southeast-2">Asia Pacific (Sydney)</option>
-												<option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
-												<option value="ca-central-1">Canada (Central)</option>
-												<option value="eu-central-1">Europe (Frankfurt)</option>
-												<option value="eu-west-1">Europe (Ireland)</option>
-												<option value="eu-west-2">Europe (London)</option>
-												<option value="eu-south-1">Europe (Milan)</option>
-												<option value="eu-west-3">Europe (Paris)</option>
-												<option value="eu-north-1">Europe (Stockholm)</option>
-												<option value="me-south-1">Middle East (Bahrain)</option>
-												<option value="sa-east-1">South America (São Paulo)</option>
-												<option value="us-gov-west-1">AWS GovCloud (US-West)</option>
-											</select>
-										</td>
-										<td class="p-3">
-											<label for="ses_key_id-${wid}-${tid}" class="form-label required">SES Key id</label>
-											<input type="text" class="form-control" id="ses_key_id-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="ses_secret-${wid}-${tid}" class="form-label required">SES Secret</label>
-											<input type="text" class="form-control" id="ses_secret-${wid}-${tid}"  />
-										</td>
-									</tr>
-									<tr class="sendgrid-row-${wid}-${tid}">
-										<td colspan="3" class="p-3">
-											<label for="send_grid_key-${wid}-${tid}" class="form-label required">SendGrid API Key</label>
-											<input type="text" class="form-control" id="send_grid_key-${wid}-${tid}" />
-										</td>
-									</tr>
-									<tr class="sparkpost-row-${wid}-${tid}">
-										<td colspan="3" class="p-3">
-											<label for="spark_post_key-${wid}-${tid}" class="form-label required">SparkPost API Key</label>
-											<input type="text" class="form-control" id="spark_post_key-${wid}-${tid}" />
-										</td>
-									</tr>
-									<tr class="gmail-row-${wid}-${tid}">
-										<td colspan="2" class="p-3">
-											<label for="sender_name-${wid}-${tid}" class="form-label">Sender Name</label>
-											<input type="text" class="form-control" id="sender_name-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="sender_email-${wid}-${tid}" class="form-label">Sender Email</label>
-											<select class="form-select" id="sender_email-${wid}-${tid}">
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">Recipients</span><br>
-											<span class="text-secondary">Specify one or more email addresses separated by comma that your emails should be sent to</span><br>
-										</td>
-									</tr>
-									<tr>
-										<td class="p-3">
-											<label for="to-${wid}-${tid}" class="form-label">To</label>
-											<input type="text" class="form-control" id="to-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="cc-${wid}-${tid}" class="form-label">CC</label>
-											<input type="text" class="form-control" id="cc-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="bcc-${wid}-${tid}" class="form-label">BCC</label>
-											<input type="text" class="form-control" id="bcc-${wid}-${tid}" />
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="p-3">
-											<label for="reply_to-${wid}-${tid}" class="form-label">Reply-to Email</label>
-											<select class="form-select" id="reply_to-${wid}-${tid}">
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">Subject & Message</span><br>
-											<span class="text-secondary">Specify the subject line and body of your message. Use markers for personalized subject and body</span>
-										</td>
-									</tr>
-									<tr>
-										<td class="p-3" colspan="2">
-											<label for="subject-${wid}-${tid}" class="form-label">Subject</label>
-											<input type="text" class="form-control" id="subject-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="editor_type-${wid}-${tid}" class="form-label">Editor type</label>
-											<select class="form-select" id="editor_type-${wid}-${tid}">
-												<option selected value="wysiwyg">WYSIWYG</option>
-												<option value="html">HTML</option>
-												<option value="docs">Google Docs</option>
-											</select>
-										</td>
-									</tr>
-									<tr class="email-body-section-${wid}-${tid}">
-										<td class="p-3" colspan="3">
-											<label for="email-body-${wid}-${tid}" class="form-label">Email Body</label>
-											<div id="editor-${wid}-${tid}">
-												
-											</div>
-										</td>
-									<tr/>
-									<tr class="email-bodyhtml-section-${wid}-${tid}">
-										<td class="p-3" colspan="3">
-											<label for="email-body-html-${wid}-${tid}" class="form-label">Email Body</label>
-											<div class="container position-relative border p-0">
-						
-													<small id="showpreview-${wid}-${tid}" class="bg-theme stool position-absolute top-0 end-0 p-2">
-														PREVIEW
-													</small>
-													<small id="showhtml-${wid}-${tid}" class="bg-theme stool position-absolute top-0 end-0 p-2" style="display:none">
-														VIEW HTML
-													</small>			
-													<textarea id="editor-html-${wid}-${tid}" class="form-control m-0 p-2 border-0" style="width:100%;resize: none;outline: none"></textarea>
-													<iframe src="javascript:void(0);" class="hide p-2" id="embody-preview-${wid}-${tid}" style="width:100%;height: 250px;">
-													</iframe>
-												</div>
-											</div>
-
-										</td>
-									</tr>
-									<tr class="google-docs-section-${wid}-${tid}">
-										<td class="p-3" colspan="2">
-											<input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
-											<label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Docs Template<sup class="text-danger">*</sup>
-												<a class="hide openlink" href=""><i class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
-											</label>
-											<div class="input-group">
-												<input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose Docs Template">
-												<input id="email_template_id-${wid}-${tid}" type="hidden" value="" />
-												<button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
-												<span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span class="btn-text">Choose</span></button>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>									
-									<tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">File Attachments</span><br>
-											<span class="text-secondary">You can attach files or include merged file linkes from Google Drive How to do it?</span><br>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="3" class="p-3">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="attach_merged_files-${wid}-${tid}" checked>
-												<label class="fw-normal" for="attach_merged_files-${wid}-${tid}">
-													Attach all merged files generated in this workflow
-												</label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="attach_form_uploads-${wid}-${tid}" >
-												<label class="fw-normal" for="attach_form_uploads-${wid}-${tid}">
-													Attach Google Form uploaded Files (if any)
-												</label>
-											</div>	
-										</td>	
 									</tr>
 								</tbody>
 							</table>
