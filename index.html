@@ -318,111 +318,178 @@
 											<label for="service_name-${wid}-${tid}" class="form-label">Drive Service</label>
 											<select class="form-select" id="service_name-${wid}-${tid}">
 												<option value="">Choose action..</option>
-												<option value="gmail">Copy File</option>
-												<option value="amazon">Create Folder</option>
-												<option value="sendgrid">Share File</option>
-												<option value="sparkpost">Share Folder</option>
+												<option value="copyfile">Copy File</option>
+												<option value="createfolder">Create Folder</option>
+												<option value="sharefile">Share File</option>
+												<option value="sharefolder">Share Folder</option>
 											</select>
 										</td>
 									</tr>
-                                    <tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>	
-                                    <tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">Source File</span><br>
-											<span class="text-secondary">Choose the source file to copy to another folder in Google Drive</span>
-										</td>
-									</tr>
-                                    <tr>
-										<td class="p-3" colspan="2">
-											<input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
-											<label class="form-label" for="button_email_template_name-${wid}-${tid}">Choose File
-												<a class="hide openlink" href=""><i class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
-											</label>
-											<div class="input-group">
-												<input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
-												<button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
-												<span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span class="btn-text">Choose</span></button>
-											</div>
-										</td>
-									</tr>
-                                    <tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>	
-                                    <tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">Destination Folder</span><br>
-											<span class="text-secondary">Where would you like copy the file in Google Drive</span>
-										</td>
-									</tr>
-                                    <tr>
-										<td class="p-3" colspan="2">
-											<label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
-												<a class="hide openlink" href=""><i class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
-											</label>
-											<div class="input-group">
-												<input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Google Drive Folder">
-												<button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
-												<span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span class="btn-text">Choose</span></button>
-											</div>
-										</td>
-										<td class="p-3">
-											<label class="form-label">Subfolder Path</label>
-											<input type="text" class="form-control" />
-										</td>
-									</tr>
-                                    <tr>
-                                        <td class="p-3" colspan="2">
-											<label class="form-label">Name of the copied file</label>
-											<input type="text" class="form-control" />
-										</td>
+                                    <tr class="source-file-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
                                     </tr>
-                                    <tr>
-										<td colspan="3">
-											<hr>
-										</td>
-									</tr>	
-                                    <tr>
-										<td colspan="3">
-											<span class="pb-2 fw-bolder">Share file</span><br>
-											<span class="text-secondary">Share selected file with anyone through Google Drive</span><br>
-										</td>
-									</tr>
-									<tr>
-										<td class="p-3">
-											<label for="viewers-${wid}-${tid}" class="form-label">Viewers</label>
-											<input type="text" class="form-control" id="viewers-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="editors-${wid}-${tid}" class="form-label">Editors</label>
-											<input type="text" class="form-control" id="editors-${wid}-${tid}" />
-										</td>
-										<td class="p-3">
-											<label for="commenters-${wid}-${tid}" class="form-label">Commenters</label>
-											<input type="text" class="form-control" id="commenters-${wid}-${tid}" />
-										</td>
-									</tr>
-                                    <tr>
-										<td colspan="3" class="p-3">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="attach_merged_files-${wid}-${tid}" checked>
-												<label class="fw-normal" for="attach_merged_files-${wid}-${tid}">
-													Allow collaborators to copy, print, or download this file
-												</label>
-											</div>
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="attach_form_uploads-${wid}-${tid}" checked >
-												<label class="fw-normal" for="attach_form_uploads-${wid}-${tid}">
-													Send notification email when sharing this file
-												</label>
-											</div>	
-										</td>	
-									</tr>
+                                    <tr class="source-file-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Source File</span><br>
+                                            <span class="text-secondary">Choose the source file to copy to another folder in Google Drive</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="source-file-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
+                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Choose File
+                                                <a class="hide openlink" href=""><i
+                                                        class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
+                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                    <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
+                                                        class="btn-text">Choose</span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="source-folder-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr class="source-folder-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Source Folder</span><br>
+                                            <span class="text-secondary">Choose the source folder in Google Drive</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="source-folder-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
+                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                                <a class="hide openlink" href=""><i
+                                                        class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
+                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                    <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
+                                                        class="btn-text">Choose</span></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="parentfolder-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr class="parentfolder-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Parent Folder</span><br>
+                                            <span class="text-secondary">Where would you like create the folder in Google Drive?</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="parentfolder-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                                <a class="hide openlink" href=""><i
+                                                        class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control"
+                                                    aria-label="Google Drive Folder">
+                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                    <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
+                                                        class="btn-text">Choose</span></button>
+                                            </div>
+                                        </td>
+                                        <td class="p-3">
+                                            <label for="subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
+                                            <input id="subfolder-path-${wid}-${tid}" type="text" class="form-control" />
+                                        </td>
+                                    </tr>
+                                    <tr class="destination-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr class="destination-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Destination Folder</span><br>
+                                            <span class="text-secondary">Where would you like copy the file in Google Drive</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="destination-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                                <a class="hide openlink" href=""><i
+                                                        class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
+                                            </label>
+                                            <div class="input-group">
+                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control"
+                                                    aria-label="Google Drive Folder">
+                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                    <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
+                                                        class="btn-text">Choose</span></button>
+                                            </div>
+                                        </td>
+                                        <td class="p-3">
+                                            <label for="subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
+                                            <input id="subfolder-path-${wid}-${tid}" type="text" class="form-control" />
+                                        </td>
+                                    </tr>
+                                    <tr class="destination-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <label for="copied-file-${wid}-${tid}" class="form-label">Name of the copied file</label>
+                                            <input id="copied-file-${wid}-${tid}" type="text" class="form-control" />
+                                        </td>
+                                    </tr>
+                                    <tr class="checkbox-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <hr>
+                                        </td>
+                                    </tr>
+                                    <tr class="share-file-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Share file</span><br>
+                                            <span class="text-secondary">Share selected file with anyone through Google Drive</span><br>
+                                        </td>
+                                    </tr>
+                                    <tr class="share-folder-row-${wid}-${tid}">
+                                        <td colspan="3">
+                                            <span class="pb-2 fw-bolder">Share folder</span><br>
+                                            <span class="text-secondary">Share selected folder with anyone through Google Drive</span><br>
+                                        </td>
+                                    </tr>
+                                    <tr class="share-fileFolder-row-${wid}-${tid}">
+                                        <td class="p-3">
+                                            <label for="viewers-${wid}-${tid}" class="form-label">Viewers</label>
+                                            <input type="text" class="form-control" id="viewers-${wid}-${tid}" />
+                                        </td>
+                                        <td class="p-3">
+                                            <label for="editors-${wid}-${tid}" class="form-label">Editors</label>
+                                            <input type="text" class="form-control" id="editors-${wid}-${tid}" />
+                                        </td>
+                                        <td class="p-3">
+                                            <label for="commenters-${wid}-${tid}" class="form-label">Commenters</label>
+                                            <input type="text" class="form-control" id="commenters-${wid}-${tid}" />
+                                        </td>
+                                    </tr>
+                                    <tr class="checkbox-row-${wid}-${tid}">
+                                        <td colspan="3" class="p-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="allow-colabaration-${wid}-${tid}" checked>
+                                                <label class="fw-normal" for="allow-colabaration-${wid}-${tid}">
+                                                    Allow collaborators to copy, print, or download this file
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="send-notification-${wid}-${tid}" checked>
+                                                <label class="fw-normal" for="send-notification-${wid}-${tid}">
+                                                    Send notification email when sharing this file
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
 								</tbody>
 							</table>
 						</div>
@@ -438,90 +505,28 @@
             $(`#tasks-point-${wid}`).append(html_task);
             if (!task) $(`#task-modal-${wid}-${tid}`).modal("show");
             // Hide all the row initially
-            $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}, .email-bodyhtml-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
 
-            var SENDERS_EMAILS = [{
-                email: "somethinggoodone@gmail.com"
-            }, {
-                email: "example@gmail.com"
-            }]
-            SENDERS_EMAILS.forEach((data, index) => {
-                $(`#sender_email-${wid}-${tid}`).append(`<option value="${data.email}">${data.email}</option>`);
-            })
-
-            var REPLY_TO_EMAILS = [{
-                email: "somethinggoodone@gmail.com"
-            }, {
-                email: "example@gmail.com"
-            }]
-            REPLY_TO_EMAILS.forEach((data, index) => {
-                $(`#reply_to-${wid}-${tid}`).append(`<option value="${data.email}">${data.email}</option>`);
-            })
-
-            var toolbarOptions = ['bold', 'italic', 'underline', 'strike', 'link', 'image', {
-                'list': 'ordered'
-            }, {
-                    'list': 'bullet'
-                }, {
-                    size: ['small', false, 'large', 'huge']
-                }, {
-                    'align': []
-                }, {
-                    'direction': 'rtl'
-                }, 'clean']
-            $(`#editor-${wid}-${tid}, #editor-html-${wid}-${tid}`).css("height", "250px")
-            var quill = new Quill(`#editor-${wid}-${tid}`, {
-                theme: 'snow',
-                placeholder: 'Use HTML tags and {{Column Title}} for composing personalized emails',
-                modules: {
-                    toolbar: toolbarOptions
-                }
-            });
-
-            $(`#showpreview-${wid}-${tid}`).click(function () {
-                $(this).hide();
-                let embody = $(`#editor-html-${wid}-${tid}`).val()
-                $(`#embody-preview-${wid}-${tid}`).contents().find('body').html(embody)
-                $(`#showhtml-${wid}-${tid},#embody-preview-${wid}-${tid}`).show();
-                $(`#editor-html-${wid}-${tid}`).hide();
-            });
-            $(`#showhtml-${wid}-${tid}`).click(function () {
-                $(this).hide();
-                $(`#showpreview-${wid}-${tid},#editor-html-${wid}-${tid}`).show();
-                $(`#embody-preview-${wid}-${tid}`).hide();
-            });
-
-            $(`#editor_type-${wid}-${tid}`).on("change", function () {
-                var value = $(this).children('option:selected').val();
-                if (value === "wysiwyg") {
-                    $(`.email-bodyhtml-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
-                    $(`.email-body-section-${wid}-${tid}`).show();
-                } else if (value === "html") {
-                    $(`.email-bodyhtml-section-${wid}-${tid}`).show();
-                    $(`.email-body-section-${wid}-${tid}, .google-docs-section-${wid}-${tid}`).hide();
-                } else {
-                    $(`.google-docs-section-${wid}-${tid}`).show();
-                    $(`.email-body-section-${wid}-${tid}, .email-bodyhtml-section-${wid}-${tid}`).hide();
-                }
-            })
             $(`#service_name-${wid}-${tid}`).on("change", function () {
                 var value = $(this).children('option:selected').val();
-                if (value === "gmail") {
-                    $(`.gmail-row-${wid}-${tid}`).show();
-                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}`).hide();
-                } else if (value === "amazon") {
-                    $(`.aws-row-${wid}-${tid}`).show();
-                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
-                } else if (value === "sendgrid") {
-                    $(`.sendgrid-row-${wid}-${tid}`).show();
-                    $(`.sparkpost-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
-                } else if (value === "sparkpost") {
-                    $(`.sparkpost-row-${wid}-${tid}`).show();
-                    $(`.sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
-                } else {
-                    $(`.sparkpost-row-${wid}-${tid}, .sendgrid-row-${wid}-${tid}, .aws-row-${wid}-${tid}, .gmail-row-${wid}-${tid}`).hide();
+                if (value === "copyfile") {
+                    $(`.share-folder-row-${wid}-${tid}, .source-folder-row-${wid}-${tid}, .parentfolder-row-${wid}-${tid}`).hide();
+                    $(`.share-file-row-${wid}-${tid}, .source-file-row-${wid}-${tid}, .share-fileFolder-row-${wid}-${tid}, .checkbox-row-${wid}-${tid}, .destination-row-${wid}-${tid}`).show();
+                } else if (value === "createfolder") {
+                    $(`.share-file-row-${wid}-${tid}, .source-file-row-${wid}-${tid}, .destination-row-${wid}-${tid}, .source-folder-row-${wid}-${tid}`).hide();
+                    $(`.share-folder-row-${wid}-${tid}, .share-fileFolder-row-${wid}-${tid}, .parentfolder-row-${wid}-${tid}, .checkbox-row-${wid}-${tid}`).show();
+                } else if (value === "sharefile") {
+                    $(`.share-folder-row-${wid}-${tid}, .destination-row-${wid}-${tid}, .parentfolder-row-${wid}-${tid}, .source-folder-row-${wid}-${tid}`).hide();
+                    $(`.share-file-row-${wid}-${tid}, .source-file-row-${wid}-${tid}, .share-fileFolder-row-${wid}-${tid}, .checkbox-row-${wid}-${tid}`).show();
+                } else if (value === "sharefolder") {
+                    $(`.share-file-row-${wid}-${tid}, .source-file-row-${wid}-${tid}, .parentfolder-row-${wid}-${tid}, .destination-row-${wid}-${tid}`).hide();
+                    $(`.share-folder-row-${wid}-${tid}, .share-fileFolder-row-${wid}-${tid}, .checkbox-row-${wid}-${tid}, .source-folder-row-${wid}-${tid}`).show();
+                } else if (value === "") {
+                    $(`.share-file-row-${wid}-${tid}, .source-file-row-${wid}-${tid}, .parentfolder-row-${wid}-${tid}, .share-folder-row-${wid}-${tid}, .checkbox-row-${wid}-${tid}, 
+                    .share-fileFolder-row-${wid}-${tid}, .destination-row-${wid}-${tid}, .source-folder-row-${wid}-${tid}`).hide();
                 }
             }).trigger("change")
+
+
             $(`.restore-${wid}-${tid}`).on('click', function (e) {
                 console.log("Restore called")
                 if (!task) return;
