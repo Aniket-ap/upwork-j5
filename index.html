@@ -207,83 +207,34 @@
 		</li>`
         }
 
-        function getEmailValues(wid, tid) {
+        function getDriveValues(wid, tid) {
             let result = {};
-            result.taskType = "email";
             result.id = tid;
-            result.name = `${wid}-${tid}`;
-            result.replyTo = $(`#reply_to-${wid}-${tid}`).val();
-            result.attachMergedFiles = $(`#attach_merged_files-${wid}-${tid}`).is(":checked");
-            result.attachFormUploads = $(`#attach_form_uploads-${wid}-${tid}`).is(":checked");
-            // Service name
-            let val = $(`#service_name-${wid}-${tid}`).val();
-            if (val === "gmail") {
-                result.serviceName = "Gmail"
-                result.senderName = $(`#sender_name-${wid}-${tid}`).val();
-                result.senderEmail = $(`#sender_email-${wid}-${tid}`).val();
-            } else if (val === "amazon") {
-                result.serviceName = "Amazon SES";
-                let region = $(`#ses_region-${wid}-${tid}`).val()
-                if (region === "") {
-                    alert("Please choose AWS Region.");
-                    return;
-                }
-                result.sesRegion = region;
-                let sesKey = $(`#ses_key_id-${wid}-${tid}`).val();
-                if (sesKey === "") {
-                    alert("SES Key ID should not be empty.");
-                    return;
-                }
-                result.sesKeyId = sesKey;
-                let sesSecret = $(`#ses_secret-${wid}-${tid}`).val();
-                if (sesSecret === "") {
-                    alert("SES Secret should not be empty.");
-                    return;
-                }
-                result.sesSecret = sesSecret
-            } else if (val === "sendgrid") {
-                result.serviceName = "SendGrid"
-                let sendGrid = $(`#send_grid_key-${wid}-${tid}`).val();
-                if (sendGrid === "") {
-                    alert("SendGrid API Key should not be empty.");
-                    return;
-                }
-                result.sendGridKey = sendGrid;
-            } else if (val === "sparkpost") {
-                result.serviceName = "SparkPost"
-                let sparkPost = $(`#spark_post_key-${wid}-${tid}`).val();
-                if (sparkPost === "") {
-                    alert("sparkPost API Key should not be empty.");
-                    return;
-                }
-                result.sparkPostKey = sparkPost;
+            result.name = `${wid}-${tid}`
+            
+            let serviceName = $(`#service_name-${wid}-${tid}`).val();
+
+            if(serviceName === "copyfile"){
+                result.taskType = "Copy File";
+                result.copiedFile = $(`#copied-file-${wid}-${tid}`).val();
+                result.subFolderPath = $(`#destination-subfolder-path-${wid}-${tid}`).val();
+            } else if(serviceName === "createfolder"){
+                result.taskType = "Create Folder";
+                result.subFolderPath = $(`#parentfolder-subfolder-path-${wid}-${tid}`).val();
+            } else if(serviceName === "sharefile"){
+                result.taskType = "Share File";
+                
+            } else if(serviceName === "sharefolder"){
+                result.taskType = "Share Folder";
+
             }
 
-            result.subject = $(`#subject-${wid}-${tid}`).val();
-            let editorTypeValue = $(`#editor_type-${wid}-${tid}`).val();
-            if (editorTypeValue === "wysiwyg") {
-                result.editorType = "wysiwyg";
-                result.htmlBody = $(`#editor-${wid}-${tid} .ql-editor`).html();
-                // result.htmlBody = quill.root.innerHTML;
-            } else if (editorTypeValue === "html") {
-                result.editorType = "html";
-                result.htmlBody = $(`#editor-html-${wid}-${tid}`).val();
-            } else if (editorTypeValue === "docs") {
-                result.editorType = "docs";
-                result.emailTemplateName = $(`#email_template_name-${wid}-${tid}`).val();
-            }
-
-            let toVal = $(`#to-${wid}-${tid}`).val();
-            let ccVal = $(`#cc-${wid}-${tid}`).val();
-            let bccVal = $(`#bcc-${wid}-${tid}`).val();
-            if ((toVal === "") && (ccVal === "") && (bccVal === "")) {
-                alert("Recipient TO/CC/BCC should not be empty.");
-                return;
-            }
-            result.to = toVal;
-            result.cc = ccVal;
-            result.bcc = bccVal;
-
+            result.viewer = $(`#viewers-${wid}-${tid}`).val();
+            result.editor = $(`#editors-${wid}-${tid}`).val();
+            result.commenter = $(`#commenters-${wid}-${tid}`).val();
+            result.viewersCanCopy = $(`#allow-colabaration-${wid}-${tid}`).is(":checked");
+            result.sendNotifications = $(`#send-notification-${wid}-${tid}`).is(":checked");
+            
             return result;
         }
 
@@ -403,8 +354,8 @@
                                             </div>
                                         </td>
                                         <td class="p-3">
-                                            <label for="subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
-                                            <input id="subfolder-path-${wid}-${tid}" type="text" class="form-control" />
+                                            <label for="parentfolder-subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
+                                            <input id="parentfolder-subfolder-path-${wid}-${tid}" type="text" class="form-control" />
                                         </td>
                                     </tr>
                                     <tr class="destination-row-${wid}-${tid}">
@@ -433,8 +384,8 @@
                                             </div>
                                         </td>
                                         <td class="p-3">
-                                            <label for="subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
-                                            <input id="subfolder-path-${wid}-${tid}" type="text" class="form-control" />
+                                            <label for="destination-subfolder-path-${wid}-${tid}" class="form-label">Subfolder Path</label>
+                                            <input id="destination-subfolder-path-${wid}-${tid}" type="text" class="form-control" />
                                         </td>
                                     </tr>
                                     <tr class="destination-row-${wid}-${tid}">
@@ -594,8 +545,8 @@
             $(`.done-${wid}-${tid}`).on('click', function (e) {
                 e.preventDefault()
                 e.stopPropagation()
-                console.log(JSON.stringify(getEmailValues(wid, tid), null, 4));
-                // if (getEmailValues(wid, tid)) {
+                console.log(JSON.stringify(getDriveValues(wid, tid), null, 4));
+                // if (getDriveValues(wid, tid)) {
                 // $(`#task-modal-${wid}-${tid}`).modal('hide');
                 // }
             })
@@ -613,63 +564,71 @@
             var wflw = {
                 id: "l9zgqjql",
                 tasks: [{
-                    "taskType": "email",
-                    "id": "y9f514dg",
-                    "name": "l9zgqjql-y9f514dg",
-                    "senderEmail": "somethinggoodone@gmail.com",
-                    "replyTo": "somethinggoodone@gmail.com",
-                    "editorType": "wysiwyg", //html or docs
-                    "htmlBody": "<p>This is a test email</p>",
-                    "attachMergedFiles": true,
-                    "serviceName": "Gmail", //"Amazon SES" or "SendGrid" or "SparkPost"
-                    "senderName": "Anony Dee",
-                    "subject": "Test subject",
-                    "to": "to1recipient1@gmail.com,torecipient2@gmail.com",
-                    "cc": "cc@gmail.com",
-                    "bcc": "bcc@gmail.com",
-                    "attachFormUploads": true,
-
-                    "emailTemplateId": "2y_aGsyCWgpwZOd0vG-qEbUVPdA714aDDW_TVzf0ZwqY",
-                    "emailTemplateName": "template",
-                    "emailTemplateMime": "application/vnd.google-apps.document",
-
-                    "sesRegion": "us-east-2",
-                    "sesKeyId": "SES1",
-                    "sesSecret": "SESSecret",
-
-                    "sendGridKey": "SendGridAPIKEY",
-
-                    "sparkPostKey": "SparkPostAPIKEYXXXXXX"
-
+                    "parentFolderId": "1asOnzJdy8veetCJvGVq5LejQZqPU8s_6",
+                    "reader": "one@viewers.com,two@viewers.com",
+                    "viewersCanCopy": true,
+                    "serviceName": "Share Folder",
+                    "templateId": "11kKC_hE8SM6WNWdEaFt-sNpUNZoWhZMNfpc78YELBe8",
+                    "commenter": "one@commenters.com",
+                    "parentFolderName": "BDFR Folder",
+                    "taskType": "Share",
+                    "taskCreated": 1674286284104,
+                    "templateName": "Untitled form",
+                    "targetFileName": "{{File Name}}.{{File Extension}}",
+                    "taskUpdated": 1674286780481,
+                    "sendNotifications": true,
+                    "id": "ld5mtow8",
+                    "writer": "one@editors.com,two@editors.com",
+                    "templateMime": "application/vnd.google-apps.form",
+/*This should be hardcoded and always same*/ "subFolderPath": "/A/B/C"
                 }, {
-                    "taskType": "email",
-                    "id": "j2f514dg",
-                    "name": "l9zgqjql-j2f514dg",
-                    "senderEmail": "tetrahedron@gmail.com",
-                    "replyTo": "square@gmail.com",
-                    "editorType": "html", //wysiwyg or docs
-                    "htmlBody": "<p>This is a test email</p><h1>This is heading</h1>",
-                    "attachMergedFiles": true,
-                    "serviceName": "Gmail",
-                    "senderName": "Anony Dee",
-                    "subject": "Test subject",
-                    "to": "triangle@gmail.com,pentagon@gmail.com",
-                    "cc": "cc@gmail.com",
-                    "bcc": "bcc@gmail.com",
-                    "attachFormUploads": false,
-
-                    "emailTemplateId": "2y_aGsyCWgpwZOd0vG-qEbUVPdA714aDDW_TVzf0ZwqY",
-                    "emailTemplateName": "template",
-                    "emailTemplateMime": "application/vnd.google-apps.document",
-
-                    "sesRegion": "us-east-2",
-                    "sesKeyId": "SES1",
-                    "sesSecret": "SESSecret",
-
-                    "sendGridKey": "SendGridAPIKEY",
-
-                    "sparkPostKey": "SparkPostAPIKEYXXXXXX"
-
+                    "parentFolderId": "1asOnzJdy8veetCJvGVq5LejQZqPU8s_6",
+                    "reader": "1@gmail.com",
+                    "viewersCanCopy": true,
+                    "serviceName": "Create Folder",
+                    "commenter": "3@gmail.com",
+                    "parentFolderName": "BDFR Folder",
+                    "taskType": "Share",
+                    "taskCreated": 1674286468120,
+                    "targetFileName": "{{File Name}}.{{File Extension}}",
+                    "taskUpdated": 1674286742833,
+                    "writer": "2@gmail.com",
+                    "id": "ld5mxmvs",
+                    "sendNotifications": true,
+                    "subFolderPath": "/A/B/C"
+                }, {
+                    "reader": "v@gmail.com",
+                    "viewersCanCopy": true,
+                    "templateId": "11kKC_hE8SM6WNWdEaFt-sNpUNZoWhZMNfpc78YELBe8",
+                    "serviceName": "Share File",
+                    "commenter": "c@gmail.com",
+                    "taskType": "Share",
+                    "taskCreated": 1674286513200,
+                    "templateName": "Untitled form",
+                    "targetFileName": "{{File Name}}.{{File Extension}}",
+                    "taskUpdated": 1674286737761,
+                    "sendNotifications": true,
+                    "writer": "e@gmail.com",
+                    "id": "ld5mylo0",
+                    "templateMime": "application/vnd.google-apps.form" /*This should be hardcoded and always same*/
+                }, {
+                    "parentFolderId": "1asOnzJdy8veetCJvGVq5LejQZqPU8s_6",
+                    "reader": "aa@gmail.com",
+                    "viewersCanCopy": true,
+                    "templateId": "11kKC_hE8SM6WNWdEaFt-sNpUNZoWhZMNfpc78YELBe8",
+                    "serviceName": "Copy File",
+                    "commenter": "cc@gmail.com",
+                    "parentFolderName": "BDFR Folder",
+                    "taskType": "Share",
+                    "taskCreated": 1674286545944,
+                    "templateName": "Untitled form",
+                    "targetFileName": "{{File Name}}.{{File Extension}}",
+                    "taskUpdated": 1674286731560,
+                    "sendNotifications": true,
+                    "writer": "bb@gmail.com",
+                    "id": "ld5mzaxk",
+                    "subFolderPath": "/",
+                    "templateMime": "application/vnd.google-apps.form" /*This should be hardcoded and always same*/
                 }]
             }
             wflw.tasks.forEach(t => {
@@ -684,7 +643,7 @@
             $(`#tasks-point-l9zgqjql`).children().each(function () {
                 if ($(this).data("type") == "email") {
                     var ids = $(this).data("id").split("-");
-                    var w = getEmailValues(ids[0], ids[1])
+                    var w = getDriveValues(ids[0], ids[1])
                     if (!w) {
                         $(`#task-modal-${$(this).data("id")}`).modal("show");
                         error = true;
