@@ -211,30 +211,34 @@
             let result = {};
             result.id = tid;
             result.name = `${wid}-${tid}`
-            
+
             let serviceName = $(`#service_name-${wid}-${tid}`).val();
+            result.taskType = "Share";
 
-            if(serviceName === "copyfile"){
-                result.taskType = "Copy File";
+            if (serviceName === "copyfile") {
+                result.serviceName = "Copy File";
                 result.copiedFile = $(`#copied-file-${wid}-${tid}`).val();
+                result.templateMime = $(`#destination-email_template_name-${wid}-${tid}`).val();
                 result.subFolderPath = $(`#destination-subfolder-path-${wid}-${tid}`).val();
-            } else if(serviceName === "createfolder"){
-                result.taskType = "Create Folder";
+            } else if (serviceName === "createfolder") {
+                result.serviceName = "Create Folder";
+                result.parentFolderName = $(`#parentfolder-email_template_name-${wid}-${tid}`).val();
                 result.subFolderPath = $(`#parentfolder-subfolder-path-${wid}-${tid}`).val();
-            } else if(serviceName === "sharefile"){
-                result.taskType = "Share File";
-                
-            } else if(serviceName === "sharefolder"){
-                result.taskType = "Share Folder";
+            } else if (serviceName === "sharefile") {
+                result.serviceName = "Share File";
+                result.templateMime = $(`#sourcefile-email_template_name-${wid}-${tid}`).val();
 
+            } else if (serviceName === "sharefolder") {
+                result.serviceName = "Share Folder";
+                result.templateMime = $(`#sourcefolder-email_template_name-${wid}-${tid}`).val();
             }
 
-            result.viewer = $(`#viewers-${wid}-${tid}`).val();
-            result.editor = $(`#editors-${wid}-${tid}`).val();
+            result.reader = $(`#viewers-${wid}-${tid}`).val();
+            result.writer = $(`#editors-${wid}-${tid}`).val();
             result.commenter = $(`#commenters-${wid}-${tid}`).val();
             result.viewersCanCopy = $(`#allow-colabaration-${wid}-${tid}`).is(":checked");
             result.sendNotifications = $(`#send-notification-${wid}-${tid}`).is(":checked");
-            
+
             return result;
         }
 
@@ -289,14 +293,13 @@
                                     </tr>
                                     <tr class="source-file-row-${wid}-${tid}">
                                         <td class="p-3" colspan="2">
-                                            <input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
-                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Choose File
+                                            <label class="form-label" for="sourcefile-button_email_template_name-${wid}-${tid}">Choose File
                                                 <a class="hide openlink" href=""><i
                                                         class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
                                             </label>
                                             <div class="input-group">
-                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
-                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                <input id="sourcefile-email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
+                                                <button class="btn btn-outline-primary" type="button" id="sourcefile-button_email_template_name-${wid}-${tid}">
                                                     <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
                                                         class="btn-text">Choose</span></button>
                                             </div>
@@ -315,14 +318,13 @@
                                     </tr>
                                     <tr class="source-folder-row-${wid}-${tid}">
                                         <td class="p-3" colspan="2">
-                                            <input id="email_template_mime-${wid}-${tid}" type="text" class="hide form-control" readonly>
-                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                            <label class="form-label" for="sourcefolder-button_email_template_name-${wid}-${tid}">Google Drive Folder
                                                 <a class="hide openlink" href=""><i
                                                         class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
                                             </label>
                                             <div class="input-group">
-                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
-                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                <input id="sourcefolder-email_template_name-${wid}-${tid}" type="text" class="form-control" aria-label="Choose File">
+                                                <button class="btn btn-outline-primary" type="button" id="sourcefolder-button_email_template_name-${wid}-${tid}">
                                                     <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
                                                         class="btn-text">Choose</span></button>
                                             </div>
@@ -341,14 +343,14 @@
                                     </tr>
                                     <tr class="parentfolder-row-${wid}-${tid}">
                                         <td class="p-3" colspan="2">
-                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                            <label class="form-label" for="parentfolder-button_email_template_name-${wid}-${tid}">Google Drive Folder
                                                 <a class="hide openlink" href=""><i
                                                         class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
                                             </label>
                                             <div class="input-group">
-                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control"
+                                                <input id="parentfolder-email_template_name-${wid}-${tid}" type="text" class="form-control"
                                                     aria-label="Google Drive Folder">
-                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                <button class="btn btn-outline-primary" type="button" id="parentfolder-button_email_template_name-${wid}-${tid}">
                                                     <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
                                                         class="btn-text">Choose</span></button>
                                             </div>
@@ -371,14 +373,14 @@
                                     </tr>
                                     <tr class="destination-row-${wid}-${tid}">
                                         <td class="p-3" colspan="2">
-                                            <label class="form-label" for="button_email_template_name-${wid}-${tid}">Google Drive Folder
+                                            <label class="form-label" for="destination-button_email_template_name-${wid}-${tid}">Google Drive Folder
                                                 <a class="hide openlink" href=""><i
                                                         class="initial material-symbols-outlined icon-text-primary align-middle">open_in_new</i></a>
                                             </label>
                                             <div class="input-group">
-                                                <input id="email_template_name-${wid}-${tid}" type="text" class="form-control"
+                                                <input id="destination-email_template_name-${wid}-${tid}" type="text" class="form-control"
                                                     aria-label="Google Drive Folder">
-                                                <button class="btn btn-outline-primary" type="button" id="button_email_template_name-${wid}-${tid}">
+                                                <button class="btn btn-outline-primary" type="button" id="destination-button_email_template_name-${wid}-${tid}">
                                                     <span class="initial align-middle align-middle material-symbols-outlined">folder_open</span>&nbsp;<span
                                                         class="btn-text">Choose</span></button>
                                             </div>
@@ -483,63 +485,32 @@
                 if (!task) return;
                 var pj = task;
 
-                // Service Name
-                if (pj.serviceName === "Gmail") {
-                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
-                    // Sender Name
-                    $(`#sender_name-${wid}-${tid}`).val(pj.senderName);
-                    // Sender Email
-                    $(`#sender_email-${wid}-${tid}`).val(pj.senderEmail)
-                } else if (pj.serviceName === "Amazon SES") {
-                    $(`#service_name-${wid}-${tid}`).val("amazon").trigger("change");
-                    // Aws Region
-                    $(`#ses_region-${wid}-${tid}`).val(pj.sesRegion)
-                    // SES key
-                    $(`#ses_key_id-${wid}-${tid}`).val(pj.sesKeyId);
-                    // SES secret
-                    $(`#ses_secret-${wid}-${tid}`).val(pj.sesSecret);
-                } else if (pj.serviceName === "SendGrid") {
-                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
-                    $(`#send_grid_key-${wid}-${tid}`).val(pj.sendGridKey);
-                } else if (pj.serviceName === "SparkPost") {
-                    $(`#service_name-${wid}-${tid}`).val(pj.serviceName.toLowerCase()).trigger("change");
-                    $(`#spark_post_key-${wid}-${tid}`).val(pj.sparkPostKey);
+                if (pj.serviceName === "Copy File") {
+                    $(`#service_name-${wid}-${tid}`).val("copyfile").trigger("change");
+                    $(`#copied-file-${wid}-${tid}`).val(pj.copiedFile);
+                    $(`#destination-email_template_name-${wid}-${tid}`).val(pj.templateMime);
+                    $(`#destination-subfolder-path-${wid}-${tid}`).val(pj.subFolderPath);
+                } else if (pj.serviceName === "Create Folder") {
+                    $(`#service_name-${wid}-${tid}`).val("createfolder").trigger("change");
+                    $(`#parentfolder-email_template_name-${wid}-${tid}`).val(pj.parentFolderName);
+                    $(`#parentfolder-subfolder-path-${wid}-${tid}`).val(pj.subFolderPath);
+                } else if (pj.serviceName === "Share File") {
+                    $(`#service_name-${wid}-${tid}`).val("sharefile").trigger("change");
+                    $(`#sourcefile-email_template_name-${wid}-${tid}`).val(pj.templateMime);
+                } else if (pj.serviceName === "Share Folder") {
+                    $(`#service_name-${wid}-${tid}`).val("sharefolder").trigger("change");
+                    $(`#sourcefolder-email_template_name-${wid}-${tid}`).val(pj.templateMime);
                 }
 
-                // TO, CC, BCC
-                $(`#to-${wid}-${tid}`).val(pj.to);
-                $(`#cc-${wid}-${tid}`).val(pj.cc);
-                $(`#bcc-${wid}-${tid}`).val(pj.bcc);
-
-                // Reply to email
-                $(`#reply_to-${wid}-${tid}`).val(pj.replyTo)
-
-                // Subject
-                $(`#subject-${wid}-${tid}`).val(pj.subject);
-                // Editor type
-                // htmlBody
-                $(`#editor_type-${wid}-${tid}`).val(pj.editorType).trigger("change");
-                if (pj.editorType === "wysiwyg") {
-                    quill.pasteHTML(pj.htmlBody);
-                }
-                if (pj.editorType === "html") {
-                    $(`#editor-html-${wid}-${tid}`).val(pj.htmlBody);
-                }
-
-                // DOCS
-                $(`#email_template_id-${wid}-${tid}`).val(pj.emailTemplateId);
-                $(`#email_template_name-${wid}-${tid}`).val(pj.emailTemplateName);
-                $(`#email_template_mime-${wid}-${tid}`).val(pj.emailTemplateMime);
-
-                if (pj.attachMergedFiles) {
-                    $(`#attach_merged_files-${wid}-${tid}`).prop('checked', true);
-                } else {
-                    $(`#attach_merged_files-${wid}-${tid}`).removeAttr('checked');
-                }
-                if (pj.attachFormUploads) {
-                    $(`#attach_form_uploads-${wid}-${tid}`).prop('checked', true);
-                }
-
+                $(`#viewers-${wid}-${tid}`).val(pj.reader);
+                $(`#editors-${wid}-${tid}`).val(pj.writer);
+                $(`#commenters-${wid}-${tid}`).val(pj.commenter);
+                if (pj.viewersCanCopy) {
+					$(`#allow-colabaration-${wid}-${tid}`).prop('checked', true);
+				}
+				if (pj.sendNotifications) {
+					$(`#send-notification-${wid}-${tid}`).prop('checked', true);
+				}
 
             }).trigger("click");
             $(`.done-${wid}-${tid}`).on('click', function (e) {
@@ -632,7 +603,7 @@
                 }]
             }
             wflw.tasks.forEach(t => {
-                if (t.taskType == "email") {
+                if (t.taskType == "Share") {
                     createTask_Email(wflw.id, t)
                 }
             })
