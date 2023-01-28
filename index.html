@@ -213,24 +213,46 @@
             result.name = `${wid}-${tid}`
 
             let serviceName = $(`#service_name-${wid}-${tid}`).val();
+            if(serviceName === ""){
+                return;
+            }
             result.taskType = "Share";
 
             if (serviceName === "copyfile") {
                 result.serviceName = "Copy File";
-                result.copiedFile = $(`#copied-file-${wid}-${tid}`).val();
                 result.templateMime = $(`#destination-email_template_name-${wid}-${tid}`).val();
+                if (result.templateMime === "") {
+                    alert("Google Drive Folder should not be empty.");
+					return;
+				}
                 result.subFolderPath = $(`#destination-subfolder-path-${wid}-${tid}`).val();
+                result.copiedFile = $(`#copied-file-${wid}-${tid}`).val();
+                if (result.copiedFile === "") {
+					alert("Name of the copied file should not be empty.");
+					return;
+				}
             } else if (serviceName === "createfolder") {
                 result.serviceName = "Create Folder";
                 result.parentFolderName = $(`#parentfolder-email_template_name-${wid}-${tid}`).val();
+                if (result.parentFolderName === "") {
+					alert("Google Drive Folder should not be empty.");
+					return;
+				}
                 result.subFolderPath = $(`#parentfolder-subfolder-path-${wid}-${tid}`).val();
             } else if (serviceName === "sharefile") {
                 result.serviceName = "Share File";
                 result.templateMime = $(`#sourcefile-email_template_name-${wid}-${tid}`).val();
-
+                if (result.templateMime === "") {
+					alert("Google Drive Folder should not be empty.");
+					return;
+				}
             } else if (serviceName === "sharefolder") {
                 result.serviceName = "Share Folder";
                 result.templateMime = $(`#sourcefolder-email_template_name-${wid}-${tid}`).val();
+                if (result.templateMime === "") {
+					alert("Google Drive Folder should not be empty.");
+					return;
+				}
             }
 
             result.reader = $(`#viewers-${wid}-${tid}`).val();
