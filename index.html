@@ -234,6 +234,7 @@
             } else if (serviceName === "createfolder") {
                 result.serviceName = "Create Folder";
                 result.parentFolderName = $(`#parentfolder-email_template_name-${wid}-${tid}`).val();
+                result.targetFolderName = $(`#parentfolder-createfolder-${wid}-${tid}`).val();
                 if (result.parentFolderName === "") {
 					alert("Google Drive Folder should not be empty.");
 					return;
@@ -382,6 +383,12 @@
                                             <input id="parentfolder-subfolder-path-${wid}-${tid}" type="text" class="form-control" />
                                         </td>
                                     </tr>
+                                    <tr class="parentfolder-row-${wid}-${tid}">
+                                        <td class="p-3" colspan="2">
+                                            <label for="parentfolder-createfolder-${wid}-${tid}" class="form-label">Name of the create folder</label>
+                                            <input id="parentfolder-createfolder--${wid}-${tid}" type="text" class="form-control" />
+                                        </td>
+                                    </tr>
                                     <tr class="destination-row-${wid}-${tid}">
                                         <td colspan="3">
                                             <hr>
@@ -516,6 +523,7 @@
                     $(`#service_name-${wid}-${tid}`).val("createfolder").trigger("change");
                     $(`#parentfolder-email_template_name-${wid}-${tid}`).val(pj.parentFolderName);
                     $(`#parentfolder-subfolder-path-${wid}-${tid}`).val(pj.subFolderPath);
+                    $(`#parentfolder-createfolder--${wid}-${tid}`).val(pj.targetFolderName);
                 } else if (pj.serviceName === "Share File") {
                     $(`#service_name-${wid}-${tid}`).val("sharefile").trigger("change");
                     $(`#sourcefile-email_template_name-${wid}-${tid}`).val(pj.templateMime);
@@ -588,7 +596,8 @@
                     "writer": "2@gmail.com",
                     "id": "ld5mxmvs",
                     "sendNotifications": true,
-                    "subFolderPath": "/A/B/C"
+                    "subFolderPath": "/A/B/C",
+                    "targetFolderName": "Dummy folder name"
                 }, {
                     "reader": "v@gmail.com",
                     "viewersCanCopy": true,
